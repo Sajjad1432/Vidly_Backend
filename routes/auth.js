@@ -1,11 +1,9 @@
-const config = require("config");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const { User } = require("../models/user");
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
-const jwt = require("jsonwebtoken");
 // Log in with email and password
 
 router.post("/", async (req, res) => {

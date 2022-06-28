@@ -3,6 +3,7 @@ const { User, validateUser } = require("../models/user"); //.USER
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const config = require("config");
 
 // Get All USERs
 router.get("/", async (req, res) => {
