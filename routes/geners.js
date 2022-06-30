@@ -1,5 +1,6 @@
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const asyncMiddleware = require("../middleware/async");
 
 // Just to make code formalize i will import model
 //  from genre models where i define model and
@@ -9,19 +10,26 @@ const express = require("express");
 const router = express.Router();
 
 // Get All Genres
-router.get("/", async (req, res) => {
-  const genres = await Genre.find().sort("name");
-  res.send(genres);
-});
+router.get(
+  "/",
+  asyncMiddleware(async (req, res) => {
+    const genres = await Genre.find().sort("name");
+    res.send(genres);
+  })
+);
 
 // Create new Genres
-router.post("/", auth, async (req, res) => {
-  const { error } = validateGenre(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-  const genre = new Genre({ name: req.body.name });
-  await genre.save();
-  res.send(genre);
-});
+router.post(
+  "/",
+  auth,
+  asyncMiddleware(async (req, res) => {
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    const genre = new Genre({ name: req.body.name });
+    await genre.save();
+    res.send(genre);
+  })
+);
 
 // Update Genre
 router.put("/:id", async (req, res) => {
