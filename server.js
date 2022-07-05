@@ -10,7 +10,7 @@ require("./startup/db")();
 require("./startup/routes")(app);
 
 // Handling Error(::Commenting this line because getting issue with winston-mongodb version issue)
-// require("./startup/logging")();
+require("./startup/logging")();
 
 // Configuration of Application
 require("./startup/config")();
@@ -21,5 +21,9 @@ require("./startup/validation")();
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 // Port
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => winston.info(`App listening on port ${PORT}`));
+const PORT = process.env.PORT || 4001;
+const server = app.listen(PORT, () =>
+  winston.info(`App listening on port ${PORT}`)
+);
+
+module.exports = server;
